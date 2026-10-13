@@ -19,9 +19,7 @@ class EnsureSpeedTestPayloadTest extends TestCase
             $this->assertSame(4096, strlen($contents));
             $this->assertGreaterThan(strlen($contents) * 0.95, strlen(gzencode($contents, 9)));
         } finally {
-            @unlink($path);
-            @unlink($path.'.lock');
-            @unlink($path.'.tmp');
+            $this->deletePayloadFiles($path);
         }
     }
 
@@ -37,8 +35,7 @@ class EnsureSpeedTestPayloadTest extends TestCase
 
             $this->assertSame($original, file_get_contents($path));
         } finally {
-            @unlink($path);
-            @unlink($path.'.lock');
+            $this->deletePayloadFiles($path);
         }
     }
 
@@ -49,5 +46,14 @@ class EnsureSpeedTestPayloadTest extends TestCase
 
         $this->assertSame(1024, $small->expectedBytes());
         $this->assertSame(64 * 1024 * 1024, $large->expectedBytes());
+    }
+
+    private function deletePayloadFiles(string $path): void
+    {
+        foreach ([$path, $path.'.lock', $path.'.tmp'] as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
     }
 }

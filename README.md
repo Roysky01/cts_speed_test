@@ -22,7 +22,7 @@ Results are stored for the visitor's own IP. Other visitors' addresses are not l
 
 ## Requirements
 
-- PHP 8.3+ with `sqlite`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, and `fileinfo`
+- PHP 8.2+ with `sqlite`, `mbstring`, `openssl`, `tokenizer`, `xml`, `ctype`, `json`, and `fileinfo`
 - Composer
 - For a real multi-stream result, PHP-FPM with more than one worker (or another process manager). `php artisan serve` handles one request at a time, so parallel streams queue and the number comes out low.
 
@@ -39,6 +39,20 @@ composer serve
 ```
 
 Then open the `APP_URL` (by default `http://127.0.0.1:8000`).
+
+## XAMPP
+
+XAMPP for Windows includes PHP 8.2, which this app supports. From the project folder:
+
+```powershell
+composer install
+copy .env.example .env
+C:\xampp\php\php.exe artisan key:generate
+New-Item -ItemType File -Force database\database.sqlite
+C:\xampp\php\php.exe artisan migrate
+```
+
+Start Apache in the XAMPP Control Panel and open `http://localhost/cts_speed_test/public`. Set `APP_URL` to that address. In `C:\xampp\php\php.ini`, set `post_max_size` and `upload_max_filesize` to `64M`, and enable `pdo_sqlite`, `sqlite3`, `mbstring`, `openssl`, and `fileinfo`.
 
 `composer serve` raises PHP's upload limit for the built-in server. Behind PHP-FPM, `public/.user.ini` sets `post_max_size` and `upload_max_filesize` to 64M. The browser sends 2 MB upload chunks, which also fits the default 8M limit.
 

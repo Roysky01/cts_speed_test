@@ -3,14 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Actions\EnsureSpeedTestPayload;
-use Illuminate\Console\Attributes\Description;
-use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
-#[Signature('speedtest:payload')]
-#[Description('Generate the incompressible file used by download tests')]
 class GenerateSpeedTestPayload extends Command
 {
+    protected $signature = 'speedtest:payload';
+
+    protected $description = 'Generate the incompressible file used by download tests';
+
     public function handle(EnsureSpeedTestPayload $payload): int
     {
         $path = $payload->forceGenerate();

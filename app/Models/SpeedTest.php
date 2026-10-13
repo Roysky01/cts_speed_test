@@ -3,27 +3,30 @@
 namespace App\Models;
 
 use Database\Factories\SpeedTestFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable([
-    'ip_address',
-    'user_agent',
-    'ping_ms',
-    'jitter_ms',
-    'loaded_ping_ms',
-    'download_mbps',
-    'upload_mbps',
-    'download_bytes',
-    'upload_bytes',
-    'download_ms',
-    'upload_ms',
-])]
 class SpeedTest extends Model
 {
     /** @use HasFactory<SpeedTestFactory> */
     use HasFactory;
+
+    /**
+     * @var list<string>
+     */
+    protected $fillable = [
+        'ip_address',
+        'user_agent',
+        'ping_ms',
+        'jitter_ms',
+        'loaded_ping_ms',
+        'download_mbps',
+        'upload_mbps',
+        'download_bytes',
+        'upload_bytes',
+        'download_ms',
+        'upload_ms',
+    ];
 
     public const HISTORY_LIMIT = 8;
 
